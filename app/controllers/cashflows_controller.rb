@@ -1,4 +1,4 @@
-class CashflowsController < ApplicationController
+class CashflowsController < ProtectedController
   before_action :set_cashflow, only: [:show, :update, :destroy]
 
   # GET /cashflows
@@ -15,7 +15,7 @@ class CashflowsController < ApplicationController
 
   # POST /cashflows
   def create
-    @cashflow = Cashflow.new(cashflow_params)
+    @cashflow = current_user.cashflows.build(cashflow_params)
 
     if @cashflow.save
       render json: @cashflow, status: :created, location: @cashflow
@@ -36,16 +36,18 @@ class CashflowsController < ApplicationController
   # DELETE /cashflows/1
   def destroy
     @cashflow.destroy
+
+    head :no_content
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_cashflow
-      @cashflow = Cashflow.find(params[:id])
+      @cashflow = current_user.cashflows.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def cashflow_params
-      params.require(:cashflow).permit(:name, :value)
+      params.require(:cashflow).permit(:name, :value, :user_id)
     end
 end
