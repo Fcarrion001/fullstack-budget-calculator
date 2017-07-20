@@ -48,5 +48,7 @@ TIMETABLE
 
 7-20-2017
 
--create new column 'user_id' for the cashflows table
--make sure connection works
+-create new column 'user_id' for the cashflows table.
+-make sure connection works and user_id is properly filled with id of user.
+-test to make sure that other users cannot make actions on cashflows that do not
+ belong to them.
