@@ -1,9 +1,9 @@
-class CashflowsController < ProtectedController
-  before_action :set_cashflow, only: [:show, :update, :destroy]
+class CashflowsController < OpenReadController
+  before_action :set_cashflow, except: %i[create new edit]
 
   # GET /cashflows
   def index
-    @cashflows = Cashflow.all
+    @cashflows = current_user.cashflows.find
 
     render json: @cashflows
   end
